@@ -1,19 +1,21 @@
+import { isAbsoluteUrl } from 'next/dist/shared/lib/utils';
 import { StyleSheet, Dimensions, Platform } from 'react-native';
+import { configureLayoutAnimationBatch } from 'react-native-reanimated/lib/typescript/reanimated2/core';
 
 
 
-export default function GenerateStyles(winWidth: number, winHeight: number) {
+export function GenerateStyles(winWidth: number, winHeight: number) {
 
 
     //egg ratio: 146 x 178 (or 73 x 89)
     function calculateEggDims() {
         var eggRatio = 146 / 178;
         if(winWidth/ winHeight >= eggRatio) {
-            var height =  winHeight / 1.5;
+            var height = Platform.OS !== 'android' && Platform.OS !== 'ios' ? winHeight / 1.5 : winHeight;
             var width = height * eggRatio;
 
         } else {
-            var width = winWidth;
+            var width = Platform.OS !== 'android' && Platform.OS !== 'ios' ? winWidth / 1.5 :  winWidth ;
             var height = width / eggRatio;
         }
         return {width: width, height: height};
@@ -66,11 +68,6 @@ export default function GenerateStyles(winWidth: number, winHeight: number) {
         width: eggDims.width,
         height: eggDims.height,
         'imageRendering': 'pixelated',
-    },
-    backgroundImage: {
-        width: winWidth, 
-        height: winHeight,
-        imageRendering: 'pixelated',
     },
     upperDisplay: {
         height: screenDims.height, 
@@ -142,6 +139,7 @@ export default function GenerateStyles(winWidth: number, winHeight: number) {
         width: winWidth,
         justifyContent: "center",
         alignItems: "center",
+        backgroundColor: '#ab0000',
     },
     screenText: {
         fontFamily: 'Press-Start',
@@ -151,39 +149,21 @@ export default function GenerateStyles(winWidth: number, winHeight: number) {
     },
     leftText: {
         fontFamily: 'Press-Start',
-        fontSize: 4 * ratio, 
-        textAlign: 'center',
-        //left: 2 * ratio,
-        //bottom: 1.5 * arrowDims.height -  screenDims.height,
+        fontSize: 3.5 * ratio, 
+        width: 19 * ratio,
+        textAlign: 'left',
+        left: 2 * ratio,
+        bottom: 2.125 * arrowDims.height -  screenDims.height,
         //adjustsFontSizeToFit: 'true',
     },
     rightText: {
         fontFamily: 'Press-Start',
-        fontSize: 4 * ratio,
-        textAlign: 'center',
-        //right: 10 * ratio,
-        //bottom: 1.5 * arrowDims.height - screenDims.height,
+        fontSize: 3.5 * ratio,
+        width: 19 * ratio,
+        textAlign: 'right',
+        right: 4 * ratio,
+        bottom: 2.125 * arrowDims.height - screenDims.height,
         //adjustsFontSizeToFit: 'true',
-    },
-    pageCount: {
-        // width: petDims/4.5,
-        // height: petDims/4.5,
-        top: -5 * ratio,
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    pageCountText: {
-        fontsize: ratio, 
-        fontFamily: 'Press-Start',
-    },
-    eggCount: {
-        // width: petDims/4.5,
-        // height: petDims/4.5,
-        top: -10 * ratio,
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
     },
     pet: {
         height: petDims,
@@ -191,45 +171,28 @@ export default function GenerateStyles(winWidth: number, winHeight: number) {
         //alignSelf: 'center',
         //left: - 18 * ratio,
         //borderWidth: 1, 
-        //borderColor: "0x330000",
-    },
-    petShadow: {
-        position: 'absolute',
-        width: screenDims.width / 1.75,
-        height: screenDims.height / 1.75,
-        bottom: petDims / 5,
-        left: petDims / 18,
-        zIndex: -1,
+        borderColor: "0x330000",
     },
     animation: {
-        height: petDims,
-        width: petDims,
+        height: screenDims.height,
+        width: screenDims.width,
         position: 'absolute',
-        left: 20 * ratio,
+        left: 0,
     },
     screenLayout: { 
         width: screenDims.width,
         height: screenDims.height,
         flexDirection: 'column',
     },
-    optionsScreen: {
-        width: screenDims.width + 2 * ratio,
-        height: screenDims.height + 1 * ratio,
-        left: -1 * ratio,
-        top: -1 * ratio,
-
-    },
     upperScreen: {
         width: screenDims.width - 8 * ratio,
         height: ratio * 16,
         position: 'relative',
-        top: 5 * ratio,
+        top: 3 * ratio,
         //borderColor: '0x330000',
         //borderWidth: 1,
         alignSelf: 'center',
         justifyContent: 'center',
-        backgroundColor: 'rgba(244, 252, 238, 0.75)',
-        borderRadius: 15
     },
     lowerScreen: {
         width: screenDims.width - 2 * ratio,
@@ -245,40 +208,23 @@ export default function GenerateStyles(winWidth: number, winHeight: number) {
     tutorial: {
         width: eggDims.width * 0.9,
         height: eggDims.height * 0.9, 
-        backgroundColor: '#7ccb9d',
+        backgroundColor: 'rgba(0, 150, 0, 1.0)',
         borderColor: 'rgba(0, 0, 0, 1.0)',
         borderWidth: 1 * ratio,
         position: 'absolute',
-        flex: 1,
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
-        shadowColor: 'black',
-        shadowRadius: 15 * ratio,
-
+        center: 0,
     },
     tutorialText: {
-        fontFamily: 'Press-Start',
-        fontSize: 3 * ratio,
-        alignSelf: 'flex-start',
-        padding: 1 * ratio,
-        //alignText: 'center',
+        //fontFamily: 'Press-Start',
+        fontSize: 5 * ratio,
     },
     tutorialArrows: {
         width: 5 * ratio, 
         height: 10 * ratio,
-        alignSelf: 'center',
-    },
-    tutorialArrowsView: { 
-        width: 10 * ratio, 
-        height: 10 * ratio,
-        flexDirection: 'row',
     },
     tutorialButtonImage: {
         width: 30 * ratio, 
         height: 10 * ratio,
-        alignSelf: 'center'
-
     },
     tutorialButtonLocation: {
         right: -0.6 * screenDims.width,
@@ -298,7 +244,6 @@ export default function GenerateStyles(winWidth: number, winHeight: number) {
     tutorialScreenshot: {
         width: 50 * ratio,
         height: 40 * ratio,
-        alignSelf: 'center'
     },
     collected: {
         width: petDims/4.5,
@@ -308,10 +253,6 @@ export default function GenerateStyles(winWidth: number, winHeight: number) {
         width: petDims/4.5,
         height: petDims/4.5,
         opacity: 0,
-    },
-    miniBackground: {
-        width: screenDims.width/4.5,
-        height: screenDims.height/4.5,
     },
     upperRowColl: {
         flexDirection: 'row',
@@ -329,36 +270,20 @@ export default function GenerateStyles(winWidth: number, winHeight: number) {
         justifyContent: 'space-evenly',
     },
     eggSelect: {
-        width: eggDims.width/4.5,
+        width: eggDims.width/5,
         height: eggDims.height/4.5,
         bottom: 2 * ratio,
         //borderColor: '0x330000',
         //borderWidth: 1,
     },
-    eggSelectWithShadow: {
-        width: eggDims.width/4.5,
-        height: eggDims.height/4.5,
-        bottom: 2 * ratio,
-        shadowColor: 'rgba(0, 160, 50, 1)',
-        shadowOffset: {width: 0, height: 0},
-        shadowOpacity: 1,
-        shadowRadius: 3, 
-        elevation: 3,
-    },
+
     eggSelectView: {
         //bottom: 0,
         alignItems: 'flex-end',
         width: screenDims.width - 2 * ratio,
-        height: screenDims.height - 16 * ratio,
+        height: screenDims.height - 5 * ratio,
         justifyContent: 'space-evenly',
         flexDirection: 'row',
-    },
-    eggSelectShadow: {
-        position: 'absolute',
-        bottom: '30%',
-        zIndex: -1,
-        left: '1%',
-        width: eggDims.width / 4.5,
     },
     options:{
         alignItems: 'flex-end',
@@ -396,24 +321,11 @@ export default function GenerateStyles(winWidth: number, winHeight: number) {
         height: petDims * 0.75, 
         alignSelf: 'center',
     },
-    statsShadow: {
-        width: screenDims.width * 0.5,
-        height: screenDims.height * 0.5,
-        position: 'absolute',
-        zIndex: -1,
-        bottom: petDims / 9,
-        left: -1 * ratio,
-    },
     info: {
         width: screenDims.width - 2 * ratio - petDims * 0.75,
         height: screenDims.height - 10 * ratio,
         justifyContent: 'space-around',
         flexDirection: 'column',
-        top: 2.75 * ratio,
-        borderRadius: 5,
-        paddingLeft: 2 * ratio,
-        right: 1 * ratio,
-        backgroundColor: 'rgba(244, 252, 238, 0.75)'
     },
     stat: {
         fontFamily: 'Press-Start',
@@ -427,45 +339,15 @@ export default function GenerateStyles(winWidth: number, winHeight: number) {
         left: 0,
     },
     confirmName: {
-        height: screenDims.height / 6,
+        height: screenDims.height / 3.25,
         width: 25 * ratio,
         fontFamily: 'Press-Start',
         fontSize: 4 * ratio,
         //bottom: 0,
-        //alignSelf:'flex-end',
-        //borderColor: '0x330000',
-        //borderWidth: 1,
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'center',
-        //textAlign: 'center',
-        bottom: - 3.25 * arrowDims.height,
-        backgroundColor: 'rgba(244, 252, 238, 0.75)',
-        borderRadius: 5,
-    },
-    confirmNameText: {
-        height: screenDims.height / 8,
-        width: 25 * ratio,
-        fontFamily: 'Press-Start',
-        fontSize: 4 * ratio,
-        //bottom: 0,
-        //alignSelf:'flex-end',
+        alignSelf:'flex-end',
         //borderColor: '0x330000',
         //borderWidth: 1,
         textAlign: 'center',
-    },
-    textPressable: {
-        height: screenDims.height / 6,
-        width: 18 * ratio,
-        //bottom: 0,
-        //alignSelf:'flex-end',
-        //borderColor: '0x330000',
-        //borderWidth: 1,
-        alignContent: 'center',
-        justifyContent: 'center',
-        bottom: - 0.675 * screenDims.height,
-        backgroundColor: 'rgba(244, 252, 238, 0.75)',
-        borderRadius: 5,
     },
     selectName: {
         width: screenDims.width - 2 * ratio,
@@ -474,58 +356,16 @@ export default function GenerateStyles(winWidth: number, winHeight: number) {
         top: -ratio * 13,
         alignSelf: 'center',
         flexDirection: 'row',
-        //borderColor: 'rgb(0, 0, 0, 1.0)',
-        //borderWidth: 1,
+        borderColor: 'rgb(0, 0, 0, 1.0)',
+        borderWidth: 1,
         justifyContent: 'space-between'
     },
     enterName: {
-        flex: 1,
+        width: 30 * ratio,
+        height: 10 * ratio, 
         alignSelf: 'center',
         fontFamily: 'Press-Start',
         fontSize: 4 * ratio,
-        //borderWidth: 1,
-        //borderColor: '0x0f0000',
-        maxWidth: eggDims.width / 3,
     },
-    nameEnterView: {
-        flexDirection: 'row',
-        alignSelf: 'center',
-        maxWidth: eggDims.width / 3,
-        height: 10 * ratio, 
-        //borderWidth: 1,
-    },
-    confirmBg: {
-        width: screenDims.width,
-        height: screenDims.height,
-        alignContent: 'space-between',
-        flexDirection: 'row',
-    },
-    yesPressable: {
-        width: 19 * ratio,
-        height: 17 * ratio,
-        flex: 1,
-        paddingLeft: 3 * ratio,
-        bottom: -screenDims.height * 0.65,
-    },
-    noPressable: {
-        width: 19 * ratio,
-        height: 17 * ratio,
-        flex: 1,
-        paddingRight: 3 * ratio,
-        bottom: -screenDims.height * 0.65,
-        alignItems: 'flex-end',
-    },
-    yesnoImage: {
-        width: 19 * ratio,
-        height: 17 * ratio,
-    },
-    transparentClickable: {
-        width: screenDims.width, 
-        height: screenDims.height,
-        opacity: 0,
-    },
-
-
-
 })};
 

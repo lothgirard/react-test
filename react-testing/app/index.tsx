@@ -1,13 +1,14 @@
 import { useState } from 'react';
 import { ImageBackground, Text, View, useWindowDimensions, Pressable, Image } from "react-native";
 import { GameStateContextProvider } from "./GameState";
-import GenerateStyles from "./styles"; 
-import ScreenArea from "./ScreenArea";
-import GameButtons from "./GameButtons";
-import Tutorial from "./Tutorial";
+import { GenerateStyles } from "./styles"; 
+import { ScreenArea } from "./ScreenArea";
+import { GameButtons } from "./GameButtons";
+import { Tutorial } from "./Tutorial";
+import { stringifyCookie } from 'next/dist/compiled/@edge-runtime/cookies';
 
-const TutorialButton = (hover: boolean) => hover ? require('../assets/images/game-images/tutorial_hover.png') : require('../assets/images/game-images/tutorial.png');
-const TutorialButtonX = (hover: boolean) => hover ? require('../assets/images/game-images/tutorial_x_hover.png') : require('../assets/images/game-images/tutorial_x.png');
+const TutorialButton = (hover: boolean) => hover ? require('../assets/images/game-images/tutorial-button-pressed.png') : require('../assets/images/game-images/tutorial-button.png');
+const TutorialButtonX = (hover: boolean) => hover ? require('../assets/images/game-images/tutorial-button-x-pressed.png') : require('../assets/images/game-images/tutorial-button-x.png');
 const TutorialButtonImage = (tutorialState:boolean, hover: boolean) => tutorialState ? TutorialButtonX(hover) : TutorialButton(hover);
 
 export default function Index() {
@@ -20,13 +21,11 @@ export default function Index() {
   var buttonSource = require('../assets/images/game-images/tutorial-button.png');
   if(typeof tutorialState != 'undefined') { TutorialButtonImage(tutorialState, tutorialHover) };
 
-  //console.log(PetImages.egg.length, PetImages.pet.length, PetImages.pet.length / PetImages.egg.length);
 
   //var buttonSource = tutorialState ? 'assets/images/game-images/tutorial-button-x.png' : 'assets/images/game-images/tutorial-button.png';
   console.log("index: " + gameState);
   return (
     <GameStateContextProvider>
-      <ImageBackground source={require('../assets/images/bg.png')} style={Styles.backgroundImage} resizeMode='repeat'>
       <View style={Styles.outerView}>
         <ImageBackground source={require( '../assets/images/game-images/tamagotchi-egg.png')} style={Styles.egg} resizeMode="contain">
           <ScreenArea Styles={Styles}/>
@@ -37,7 +36,6 @@ export default function Index() {
           </Pressable>
         </ImageBackground>
       </View>
-      </ImageBackground>
     </GameStateContextProvider>
   );
 }
