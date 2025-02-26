@@ -2,7 +2,7 @@ import { useContext, createContext, useReducer, ReactNode, Dispatch, SetStateAct
 
 const FrogCount = 12;
 
-const StartState = {state: 'pickEgg', egg: -1, pet: -1, hatchAction: '', oldState: '', name: 'Froggy :)', age: '23', eggHatched: false};
+const StartState = {state: 'pickEgg', egg: -1, pet: -1, hatchAction: '', oldState: '', name: 'Froggy :)', age: '23'};
 
 type GameState = {
     state: string, 
@@ -10,7 +10,6 @@ type GameState = {
     pet: number,
     hatchAction: string,
     oldState: string,
-    eggHatched: boolean,
 };
 
 export const ActionListContext = createContext<Array<String>>([]);
@@ -71,12 +70,10 @@ export const GameStateContextProvider = ({children}) => {
 
 
     function gameStateReducer(state: any, action: any) {
-        console.log("we have received the action: ", action);
+        //console.log(action);
         //console.log(state);
         switch(action.newState) {
             case "hatchingAnim":
-                state = {...state, state: action.newState, egg: action.egg, hatchAction: action.hatchAction, oldState: state.state, eggHatched: true};
-                break;
             case "hatching":
                 state = {...state, state: action.newState, egg: action.egg, hatchAction: action.hatchAction, oldState: state.state};
                 break;
@@ -84,7 +81,7 @@ export const GameStateContextProvider = ({children}) => {
                 var number = getPet(action.egg, action.hatchAction);
                 //var pet = "pet_" + String(number);
                 progressStateDispatch(number);
-                state = {...state, state: 'petHatched', pet: number, eggHatched: true};
+                state = {...state, state: 'petHatched', pet: number};
                 break;
             case "eggPicked":
                 state = {...state, state: 'confirmEgg', egg: action.egg};
@@ -93,7 +90,7 @@ export const GameStateContextProvider = ({children}) => {
                 state = {...state, state: 'pickName', egg: action.egg};
                 break;
             case "eggRejected":
-                state = {...state, state: 'pickEgg'};
+                state = {...state, state: 'selectEgg'};
                 break;
             case "eggNamed":
                 state = {...state, state: 'egg', name: action.name, oldState: state.state};
@@ -101,15 +98,10 @@ export const GameStateContextProvider = ({children}) => {
             case "options":
                 state = {...state, state:"options", oldState: state.state};
                 break;
-            case "petAnim":
-            case "playAnim":
-            case "giftAnim":
-            case "feedAnim":
-            case "wasPet":
-            case "wasPlay":
-            case "wasGift":
-            case "wasFeed":
-                if (state.state !== "hatching") { state = {...state, state: action.newState}; break;} 
+            case "pettingAnim":
+            case "playingAnim":
+            case "giftingAnim":
+            case "feedingAnim":
             case "stats":
             case "collection":
             case "credits": 
