@@ -1,12 +1,12 @@
-import { requireNativeModule } from 'expo';
-import { isAbsoluteUrl } from 'next/dist/shared/lib/utils';
 import { StyleSheet, Dimensions, Platform } from 'react-native';
-import { configureLayoutAnimationBatch } from 'react-native-reanimated/lib/typescript/reanimated2/core';
 
 
 
 export function GenerateStyles(winWidth: number, winHeight: number) {
-
+    if (winWidth == 0 || winHeight == 0) {
+        winWidth = 374;
+        winHeight = 701;
+    }
 
     //egg ratio: 146 x 178 (or 73 x 89)
     function calculateEggDims() {

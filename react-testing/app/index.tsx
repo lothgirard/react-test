@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ImageBackground, Text, View, useWindowDimensions, Pressable, Image } from "react-native";
 import { GameStateContextProvider } from "./GameState";
 import { GenerateStyles } from "./styles"; 
@@ -13,11 +13,15 @@ const TutorialButtonX = (hover: boolean) => hover ? require('../assets/images/ga
 const TutorialButtonImage = (tutorialState:boolean, hover: boolean) => tutorialState ? TutorialButtonX(hover) : TutorialButton(hover);
 
 export default function Index() {
-  const [gameState, setGameState] = useState(['egg_1']);
+  const [hasLoaded, setLoaded] = useState(false);
   const [tutorialState, setTutorialState] = useState(false);
   const [tutorialHover, setTutorialHover] = useState(false);
   const {width, height} = useWindowDimensions();
-  const Styles = GenerateStyles(1504, 571); 
+  const Styles = GenerateStyles(width, height); 
+
+  useEffect(() => {
+    if(!hasLoaded && width != 0 && height != 0) { setLoaded(true); }
+  }, [width, height])
 
   var buttonSource = require('../assets/images/game-images/tutorial-button.png');
   if(typeof tutorialState != 'undefined') { TutorialButtonImage(tutorialState, tutorialHover) };
