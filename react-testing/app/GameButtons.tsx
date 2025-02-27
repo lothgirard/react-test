@@ -1,7 +1,17 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Image, Pressable } from 'react-native';
 import { useActionList, useActionListDispatch, useProgress, useProgressDispatch, useGameState, useGameStateDispatch } from './GameState';
 
+const PetButton = (hover: boolean) => hover ? require("../assets/images/game-images/pressed/pet.png") : require( "../assets/images/game-images/pet-button.png");
+const PlayButton = (hover: boolean) => hover ? require("../assets/images/game-images/pressed/play.png") : require( "../assets/images/game-images/play-button.png");
+const GiftButton = (hover: boolean) => hover ? require("../assets/images/game-images/pressed/gift.png") : require( "../assets/images/game-images/gift-button.png");
+const FeedButton = (hover: boolean) => hover ? require("../assets/images/game-images/pressed/feed.png") : require( "../assets/images/game-images/feed-button.png");
+const OptionsButton = (hover: boolean) => hover ? require("../assets/images/game-images/pressed/options.png") : require( "../assets/images/game-images/options-button.png");
+const ResetButton = (hover: boolean) => hover ? require("../assets/images/game-images/pressed/reset.png") : require( "../assets/images/game-images/reset-button.png");
+
+const BlockProg = [ "pickEgg", "confirmEgg", "hatching", "pickName", "hatchingAnim", "petAnim", "playAnim", "giftAnim", "feedAnim", "options", "stats", "collection", "selectBackground" ]
+const allowButtonPress = [ "egg", "petHatched", "wasPet", "wasPlay", "wasGift", "wasFeed" ]
+const resetUnactiveStates = ["hatchingAnim", "petAnim", "playAnim", "giftAnim", "feedAnim"]
 export function GameButtons({Styles}) {
 
     var dispatch = useActionListDispatch();
@@ -11,33 +21,42 @@ export function GameButtons({Styles}) {
     var gameState = useGameState();
     currEgg = gameState.egg;
 
-    var active = gameState.state !== "pickEgg" && gameState.state !== "confirmEgg" && gameState.state !== "hatching" && gameState.state !== "hatchingAnim";
+    var [petHover, setPetHover] = useState(false);
+    var [playHover, setPlayHover] = useState(false);
+    var [giftHover, setGiftHover] = useState(false);
+    var [feedHover, setFeedHover] = useState(false);
+    var [optionsHover, setOptionsHover] = useState(false);
+    var [resetHover, setResetHover] = useState(false);
+
+
+    var active = allowButtonPress.includes(gameState.state);
+    var resetActive = !resetUnactiveStates.includes(gameState.state);
     return (
         <View style={Styles.buttonColumns}>
                 <View style={Styles.buttonRow}>
-                    <Pressable onPress={() => froggyFunction(dispatch, actions, "pet", gameStateDispatch, active, gameState)}>
+                    <Pressable style={Styles.bigButton} onPress={() => froggyFunction(dispatch, actions, "pet", gameStateDispatch, active, gameState)} onPressIn={() => setPetHover(true)} onPressOut={() => setPetHover(false)}>
                         <View> 
-                            <Image source={{uri: 'assets/images/game-images/pet-button.png'}} style={Styles.bigButton} resizeMode='contain'/>
+                            <Image source={PetButton(petHover)} style={Styles.bigButton} resizeMode='contain'/>
                         </View>
                     </Pressable>
-                    <Pressable onPress={() => froggyFunction(dispatch, actions, "play", gameStateDispatch, active, gameState)}>
-                        <Image source={{uri: 'assets/images/game-images/play-button.png'}} style={Styles.bigButton} resizeMode='contain'/>
+                    <Pressable style={Styles.bigButton} onPress={() => froggyFunction(dispatch, actions, "play", gameStateDispatch, active, gameState)} onPressIn={() => setPlayHover(true)} onPressOut={() => setPlayHover(false)}>
+                        <Image source={PlayButton(playHover)} style={Styles.bigButton} resizeMode='contain'/>
                     </Pressable>
                 </View>
                 <View style={Styles.buttonRow}>
-                    <Pressable onPress={() => froggyFunction(dispatch, actions, "gift", gameStateDispatch, active, gameState)}>
-                        <Image source={{uri: 'assets/images/game-images/gift-button.png'}} style={Styles.bigButton} resizeMode='contain'/>
+                    <Pressable style={Styles.bigButton} onPress={() => froggyFunction(dispatch, actions, "gift", gameStateDispatch, active, gameState)} onPressIn={() => setGiftHover(true)} onPressOut={() => setGiftHover(false)}>
+                        <Image source={GiftButton(giftHover)} style={Styles.bigButton} resizeMode='contain'/>
                     </Pressable>
-                    <Pressable onPress={() => froggyFunction(dispatch, actions, "feed", gameStateDispatch, active, gameState)}>
-                        <Image source={{uri: 'assets/images/game-images/feed-button.png'}} style={Styles.bigButton} resizeMode='contain'/>
+                    <Pressable style={Styles.bigButton} onPress={() => froggyFunction(dispatch, actions, "feed", gameStateDispatch, active, gameState)} onPressIn={() => setFeedHover(true)} onPressOut={() => setFeedHover(false)}>
+                        <Image source={FeedButton(feedHover)} style={Styles.bigButton} resizeMode='contain'/>
                     </Pressable>
                 </View>
                 <View style={Styles.smallButtonRow}>
-                    <Pressable onPressOut={() => optionsButton(gameState, gameStateDispatch)}>
-                        <Image source={{uri: 'assets/images/game-images/options-button.png'}} style={Styles.smallButton} resizeMode='contain'/>
+                    <Pressable style={Styles.smallButton} onPress={() => optionsButton(gameState, gameStateDispatch, resetActive)} onPressIn={() => setOptionsHover(true)} onPressOut={() => setOptionsHover(false)}>
+                        <Image source={OptionsButton(optionsHover)} style={Styles.smallButton} resizeMode='contain'/>
                     </Pressable>
-                    <Pressable onPress={() => resetButton(gameStateDispatch, dispatch)}>
-                        <Image source={{uri: 'assets/images/game-images/reset-button.png'}} style={Styles.smallButton} resizeMode='contain'/>
+                    <Pressable style={Styles.smallButton} onPress={() => resetButton(gameStateDispatch, dispatch, resetActive)} onPressIn={() => setResetHover(true)} onPressOut={() => setResetHover(false)}>
+                        <Image source={ResetButton(resetHover)} style={Styles.smallButton} resizeMode='contain'/>
                     </Pressable>
                 </View>
         </View>  
@@ -47,38 +66,54 @@ export function GameButtons({Styles}) {
 var currEgg = 0;
 var hatchAction = "";
 
+export var flavorNum = 0;
+
+function newTextNum() {
+    flavorNum = Math.floor(Math.random() * 3);
+}
+
+
 function froggyFunction(dispatch: any, actionList: Array<String>, actionType: string, gameStateDispatch: any, active: boolean, gameState: any) {
     //play the action animation here first too, then dispatch any state changes
     if(!active) {
         return;
     }
+    newTextNum();
     console.log("we are performing ", actionType);
     dispatch(actionType);
+    
     if(hatchAction === "") {
-        
         if(actionList.length >= 3) {
+            console.log("hatching")
+            var al = actionList.concat(actionType);
             var actionNums = getActionMap(actionList.slice(0, 4));
 
             const it = actionNums.keys();          
             var max = it.next();
             if(actionNums.size > 1) {
                 for(var key = it.next(); !key.done; key = it.next()) {
-                    if(actionNums.get(key.value) > max.value) {
+                    if(actionNums.get(key.value) > actionNums.get(max.value)) {
                         max = key;
                     }
                 }
             }
             hatchAction = max.value;
-            //console.log("continued")
         } else {
+            console.log("do we go here for some reason?");
+            gameStateDispatch({...gameState, newState: actionType + "Anim"});
             return;
         }
+    } else {
+        gameStateDispatch({...gameState, newState: actionType + "Anim"});
+        return;
     }
-    if(gameState.state === "egg") {
+    if(!gameState.eggHatched) {
+        console.log("we are dispatching the hatching");
         gameStateDispatch({...gameState, 
             newState: "hatching", 
             egg: currEgg, 
             hatchAction: hatchAction});
+        return; 
     }
 }
 
@@ -100,7 +135,8 @@ export function getActionMap(actions: Array<String>) {
     return map;
 }
 
-function optionsButton(gameState: any, dispatch: any) {
+function optionsButton(gameState: any, dispatch: any, active = true) {
+    if(!active) { return; }
     var action = { ...gameState};
     switch(gameState.state) {
         case "stats":
@@ -116,7 +152,8 @@ function optionsButton(gameState: any, dispatch: any) {
     dispatch(action);
 }
 
-function resetButton(dispatch: any, actionListDispatch: any) {
+function resetButton(dispatch: any, actionListDispatch: any, active: boolean) {
+    if(!active) { return; }
     dispatch({newState: "reset"});
     //actionListDispatch(["reset"]);
     hatchAction = "";
