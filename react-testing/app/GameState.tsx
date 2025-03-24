@@ -100,7 +100,12 @@ export const GameStateContextProvider = ({children}) => {
                 state = {...state, state: 'confirmEgg', egg: action.egg};
                 break;
             case "eggConfirmed":
-                state = {...state, state: 'pickName', egg: action.egg, background: 2};
+                if(state.defaultBackground) {
+                    state = {...state, state: 'pickName', egg: action.egg, background: 2};
+                } else {
+                    state = {...state,  state: 'pickName', egg: action.egg}
+                }
+
                 break;
             case "eggRejected":
                 state = {...state, state: 'pickEgg'};
@@ -172,7 +177,11 @@ export const GameStateContextProvider = ({children}) => {
                 state = {...action, state: state.oldState};
                 break;
             case "reset":
-                state = StartState;
+                if(state.defaultBackground) {
+                    state = StartState;
+                } else {
+                    state = {... StartState, background: state.background}
+                }
                 state.shuffleOrder = shuffle();
                 actionListDispatch("reset");            
             default:

@@ -25,8 +25,9 @@ export const PetImages = {
         require('../assets/images/game-images/eggs/egg purple.png'),
         require('../assets/images/game-images/eggs/egg dark magenta.png'),
         require('../assets/images/game-images/eggs/egg pink.png'),
+        require('../assets/images/game-images/eggs/egg grey.png')
     ],
-    //require('../assets/images/game-images/eggs/egg grey.png')
+    //
     // "egg_broken": [
     //     require('../assets/images/game-images/pets/egg_1_broken.png'),
     //     require('../assets/images/game-images/pets/egg_2_broken.png'),
@@ -126,6 +127,7 @@ export const PetImages = {
         require('../assets/images/game-images/pets/amour3.png'),
         require('../assets/images/game-images/pets/amour4.png'),
         require('../assets/images/game-images/pets/amour5.png'),
+        require('../assets/images/game-images/pets/anne1.png'),
         require('../assets/images/game-images/pets/cro1.png'),
         require('../assets/images/game-images/pets/fia1.png'),
         require('../assets/images/game-images/pets/gato1.png'),
@@ -142,6 +144,7 @@ export const PetImages = {
         require('../assets/images/game-images/pets/jig1.png'),
         require('../assets/images/game-images/pets/julia1.png'),
         require('../assets/images/game-images/pets/julia2.png'),
+        require('../assets/images/game-images/pets/lesma1.png'),
         require('../assets/images/game-images/pets/mima1.png'),
         require('../assets/images/game-images/pets/moralle1.png'),
         require('../assets/images/game-images/pets/moralle2.png'),
@@ -155,6 +158,7 @@ export const PetImages = {
         require('../assets/images/game-images/pets/silk3.png'),
         require('../assets/images/game-images/pets/slacky1.png'),
         require('../assets/images/game-images/pets/slacky2.png'),
+        require('../assets/images/game-images/pets/smug1.png'),
         require('../assets/images/game-images/pets/splishy1.png'),
         require('../assets/images/game-images/pets/splishy2.png'),
         require('../assets/images/game-images/pets/splishy3.png'),
@@ -168,6 +172,7 @@ export const PetImages = {
         require('../assets/images/game-images/pets/tono1.png'),
         require('../assets/images/game-images/pets/tono2.png'),
         require('../assets/images/game-images/pets/tono3.png'),
+        require('../assets/images/game-images/pets/tono4.gif'),
         require('../assets/images/game-images/pets/tpop1.png'),
     ],
     "actionPet": [
@@ -180,6 +185,7 @@ export const PetImages = {
         require('../assets/images/game-images/pets/amour3.gif'),
         require('../assets/images/game-images/pets/amour4.gif'),
         require('../assets/images/game-images/pets/amour5.gif'),
+        require('../assets/images/game-images/pets/anne1.gif'),
         require('../assets/images/game-images/pets/cro1.gif'),
         require('../assets/images/game-images/pets/fia1.gif'),
         require('../assets/images/game-images/pets/gato1.gif'),
@@ -196,6 +202,7 @@ export const PetImages = {
         require('../assets/images/game-images/pets/jig1.gif'),
         require('../assets/images/game-images/pets/julia1.gif'),
         require('../assets/images/game-images/pets/julia2.gif'),
+        require('../assets/images/game-images/pets/lesma1.gif'),
         require('../assets/images/game-images/pets/mima1.gif'),
         require('../assets/images/game-images/pets/moralle1.gif'),
         require('../assets/images/game-images/pets/moralle2.gif'),
@@ -209,6 +216,7 @@ export const PetImages = {
         require('../assets/images/game-images/pets/silk3.gif'),
         require('../assets/images/game-images/pets/slacky1.gif'),
         require('../assets/images/game-images/pets/slacky2.gif'),
+        require('../assets/images/game-images/pets/smug1.gif'),
         require('../assets/images/game-images/pets/splishy1.gif'),
         require('../assets/images/game-images/pets/splishy2.gif'),
         require('../assets/images/game-images/pets/splishy3.gif'),
@@ -222,6 +230,7 @@ export const PetImages = {
         require('../assets/images/game-images/pets/tono1.gif'),
         require('../assets/images/game-images/pets/tono2.gif'),
         require('../assets/images/game-images/pets/tono3.gif'),
+        require('../assets/images/game-images/pets/tono4.gif'),
         require('../assets/images/game-images/pets/tpop1.gif'),
     ],
     "background": [
@@ -230,6 +239,7 @@ export const PetImages = {
         require('../assets/images/game-images/backgrounds/tono2.png'),
         require('../assets/images/game-images/backgrounds/gato1.png'),
         require('../assets/images/game-images/backgrounds/jd1.png'),
+        require('../assets/images/game-images/backgrounds/lesma1.png'),
         require('../assets/images/game-images/backgrounds/moralle1.png'),
         require('../assets/images/game-images/backgrounds/moralle2.png'),
         require('../assets/images/game-images/backgrounds/moralle3.png'),
@@ -252,20 +262,20 @@ export const PetImages = {
         -1,
         -1,
         -1,
-        26,
-        28,
+        13,
+        23,
+        27,
         29,
         30,
-        30,
-        35,
+        31,
+        31,
         36,
         37,
         38,
-        39,
-        40,
-        48,
-        49,
-        52
+        42,
+        50,
+        51,
+        56
     ] //here if necessary but i hope we can leave the backgrounds unlocked
     
 }
