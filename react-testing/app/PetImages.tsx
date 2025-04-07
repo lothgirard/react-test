@@ -255,6 +255,7 @@ export const PetImages = {
     "placeholderBackground": [
         require('../assets/images/game-images/window.png'),
     ],
+    "hidden_bg": require('../assets/images/game-images/backgrounds/hidden_bg.png'),
     "yes": require('../assets/images/game-images/checkmark.png'),
     "no": require('../assets/images/game-images/x.png'),
     "shadow": require('../assets/images/game-images/shadow.png'),

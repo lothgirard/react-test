@@ -143,6 +143,8 @@ function optionsButton(gameState: any, dispatch: any, active = true) {
         case "collection":
         case "credits":
         case "options":
+        case "selectBackground":
+        case "confirmBackground":
             action.newState = "return";
             break;
         default:

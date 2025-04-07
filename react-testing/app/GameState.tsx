@@ -5,7 +5,7 @@ const FrogCount = PetImages.pet.length;
 export const CollScreenNum = Math.ceil(FrogCount / 12);
 export const BGScreenNum = Math.ceil(PetImages.background.length / 6);
 
-const StartState = {state: 'pickEgg', egg: -1, pet: -1, hatchAction: '', oldState: '', name: 'Froggy :)', age: '23', eggHatched: false, background: 1, oldBG: 1, focusedEgg: 0, backgroundMenu: 0, collectionScreen: 0, defaultBackground: true, shuffleOrder: shuffle()};
+const StartState = {state: 'pickEgg', egg: -1, pet: -1, hatchAction: '', oldState: 'NONE', name: 'Froggy :)', age: '23', eggHatched: false, background: 1, oldBG: 1, focusedEgg: 0, backgroundMenu: 0, collectionScreen: 0, defaultBackground: true, shuffleOrder: shuffle()};
 
 type GameState = {
     state: string, 
@@ -88,10 +88,10 @@ export const GameStateContextProvider = ({children}) => {
                 var number = getPet(action.egg, action.hatchAction);
                 //var pet = "pet_" + String(number);
                 progressStateDispatch(number);
-                state = {...state, state: action.newState, pet: number, egg: action.egg, hatchAction: action.hatchAction, oldState: state.state, eggHatched: true};
+                state = {...state, state: action.newState, pet: number, egg: action.egg, hatchAction: action.hatchAction, eggHatched: true};
                 break;
             case "hatching":
-                state = {...state, state: action.newState, egg: action.egg, hatchAction: action.hatchAction, oldState: state.state};
+                state = {...state, state: action.newState, egg: action.egg, hatchAction: action.hatchAction};
                 break;
             case "hatched":
                 state = {...state, state: 'petHatched'};
@@ -105,7 +105,6 @@ export const GameStateContextProvider = ({children}) => {
                 } else {
                     state = {...state,  state: 'pickName', egg: action.egg}
                 }
-
                 break;
             case "eggRejected":
                 state = {...state, state: 'pickEgg'};
@@ -115,10 +114,14 @@ export const GameStateContextProvider = ({children}) => {
                 state = {...state, state: 'egg'}
                 break;
             case "eggNamed":
-                state = {...state, state: 'egg', name: action.name, oldState: state.state};
+                state = {...state, state: 'egg', name: action.name};
                 break;
             case "options":
-                state = {...state, oldState: state.state, state:"options"};
+                if(state.oldState == "NONE") {
+                    state = {...state, oldState: state.state, state:"options"};
+                } else {
+                    state = {...state, state:"options"};
+                }
                 break;
             case "rightEgg":
                 state = {...state, focusedEgg: (state.focusedEgg === PetImages["egg"].length - 1 ? 0 : (state.focusedEgg + 3) % PetImages["egg"].length)}
@@ -153,7 +156,7 @@ export const GameStateContextProvider = ({children}) => {
                 if (state.state !== "hatching") { 
                     //console.log("reached this bit");
                     if (actionList.length > 3 && !state.eggHatched) { 
-                        state = {...state, state: "hatching", egg: action.egg, hatchAction: action.hatchAction, oldState: state.state};
+                        state = {...state, state: "hatching", egg: action.egg, hatchAction: action.hatchAction};
                         setTimeout(() => {gameStateReducer(state, {...gameState, newState: "hatched", egg: gameState.egg, hatchAction: gameState.hatchAction})}, 2000);
                         break;
                     }
@@ -162,19 +165,19 @@ export const GameStateContextProvider = ({children}) => {
             case "stats":
             case "collection":
             case "selectBackground":
-                state = {...action, state: action.newState};
+                state = {...state, state: action.newState};
                 break;
             case "confirmBackground": 
-                state = {...action, state: action.newState, background: action.background, oldBG: state.background};
+                state = {...state, state: action.newState, background: action.background, oldBG: state.background};
                 break;
             case "backgroundChanged":
-                state = {...action, defaultBackground: false, state: action.oldState};
+                state = {...state, defaultBackground: false, state: action.oldState};
                 break;
             case "backgroundDenied":
-                state = {...action, state: "selectBackground", background: state.oldBG};
+                state = {...state, state: "selectBackground", background: state.oldBG};
                 break;
             case "return":
-                state = {...action, state: state.oldState};
+                state = {...state, state: state.oldState, oldState: "NONE"};
                 break;
             case "reset":
                 if(state.defaultBackground) {

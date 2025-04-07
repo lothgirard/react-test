@@ -248,9 +248,9 @@ function miniBackground(collected: Array<number>, v: number, gameState, gameStat
     if (v < PetImages.background.length) {
         const isUnlocked = PetImages.backgroundMappings[v] == -1 || collected.includes(PetImages.backgroundMappings[v]) ;
         var src = isUnlocked
-            ? PetImages.background[v] : PetImages.placeholderBackground;
+            ? PetImages.background[v] : PetImages.hidden_bg;
         return <Pressable onPress={() => isUnlocked ? gameStateDispatch({...gameState, newState: "confirmBackground", background: v}) : {}} key={v}>
-            <Image style={Styles.miniBackground} source={src}/>
+            <Image style={Styles.miniBackground} source={src} resizeMode={'contain'}/>
             </Pressable>
     }
 }
@@ -505,9 +505,9 @@ function getImage(gameState: any) {
         case "playAnim":
         case "feedAnim":
         case "giftAnim":
+        case "hatchingAnim":
             output = PetImages.actionPet[gameState.pet-1];
             break;
-        case "hatchingAnim":
         case "petHatched":
         default: 
             output = PetImages.pet[gameState.pet-1];

@@ -31,7 +31,7 @@ export function Tutorial({Styles, isVisible}) {
             6. Have fun!
         </Text>
         <Text style={Styles.tutorialText}>
-            Credits: @fincho, @cro, @logthatdata, <div/> <a href='https://frogpon.art/petsim/credits/' style={{color: 'white'}}>and all these wonderful artists!</a>
+            Credits: @fincho, @cro, @logthatdata, <div/> <a href='https://frogpon.art/tamagotchi/credits/' style={{color: 'white'}}>and all these wonderful artists!</a>
         </Text>
     </View>)
 }
